@@ -3,6 +3,22 @@ import java.util.List;
 
 public class SimpleTask {
 
+    public static void main(String[] args) {
+        String[] input = {"Кiт", "Собака", "Слон", "Миша", "Крокодил", "Лев"};
+        
+        System.out.println("Рядки, коротшi за середню довжину:");
+        String[] shorter = getStringsShorterThanAverage(input);
+        for (String s : shorter) {
+            System.out.println(s);
+        }
+
+        System.out.println("\nРядки, довшi за середню довжину:");
+        String[] longer = getStringsLongerThanAverage(input);
+        for (String s : longer) {
+            System.out.println(s);
+        }
+    }
+
     public static String[] getStringsShorterThanAverage(String[] input) {
         if (input == null || input.length == 0) return new String[0];
         
