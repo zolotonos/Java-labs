@@ -1,24 +1,28 @@
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 public class MainHardTask {
     public static void main(String[] args) throws Exception {
-        File sourceFile = new File("TestModule.java");
-        long lastModified = 0;
+        Path sourcePath = Path.of("TestModule.java");
+        byte[] lastBytes = new byte[0];
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
         while (true) {
-            if (sourceFile.lastModified() > lastModified) {
-                compiler.run(null, null, null, sourceFile.getPath());
-                lastModified = sourceFile.lastModified();
-
-                CustomClassLoader loader = new CustomClassLoader(".");
-                Class<?> clazz = loader.loadClass("TestModule");
-                Object instance = clazz.getDeclaredConstructor().newInstance();
-                System.out.println(instance.toString());
+            byte[] currentBytes = Files.readAllBytes(sourcePath);
+            if (currentBytes.length > 0 && !Arrays.equals(currentBytes, lastBytes)) {
+                Thread.sleep(100);
+                if (compiler.run(null, null, null, sourcePath.toString()) == 0) {
+                    lastBytes = currentBytes;
+                    CustomClassLoader loader = new CustomClassLoader(".");
+                    Class<?> clazz = loader.loadClass("TestModule");
+                    Object instance = clazz.getDeclaredConstructor().newInstance();
+                    System.out.println(instance);
+                }
             }
-            Thread.sleep(2000);
+            Thread.sleep(500);
         }
     }
 }
