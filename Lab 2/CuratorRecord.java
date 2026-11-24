@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CuratorRecord {
     private final String lastName;
@@ -13,5 +14,14 @@ public class CuratorRecord {
         this.birthDate = birthDate;
         this.phone = phone;
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return lastName + " " + firstName +
+                " | Дата народження: " + birthDate.format(formatter) +
+                " | Тел.: " + phone +
+                " | Адреса: " + address;
     }
 }

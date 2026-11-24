@@ -8,4 +8,9 @@ public class Address {
         this.house = house;
         this.apartment = apartment;
     }
+
+    @Override
+    public String toString() {
+        return "вул. " + street + ", буд. " + house + ", кв. " + apartment;
+    }
 }
