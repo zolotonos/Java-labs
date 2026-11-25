@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class ShapeModel {
     private final Shape[] shapes;
 
@@ -45,5 +48,25 @@ public class ShapeModel {
             }
         }
         return sum;
+    }
+
+    public void sortByArea() {
+        Comparator<Shape> areaComparator = new Comparator<Shape>() {
+            @Override
+            public int compare(Shape s1, Shape s2) {
+                return Double.compare(s1.calcArea(), s2.calcArea());
+            }
+        };
+        Arrays.sort(shapes, areaComparator);
+    }
+
+    public void sortByColor() {
+        Comparator<Shape> colorComparator = new Comparator<Shape>() {
+            @Override
+            public int compare(Shape s1, Shape s2) {
+                return s1.getShapeColor().compareTo(s2.getShapeColor());
+            }
+        };
+        Arrays.sort(shapes, colorComparator);
     }
 }
